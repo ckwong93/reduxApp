@@ -85,6 +85,15 @@ var reducer = function reducer() {
       // return {books};
       return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)) };
       break;
+
+    case "DELETE_BOOK":
+      var bookList = [].concat(_toConsumableArray(state.books));
+      // indexDelete function sifts through books arr and finds where book id is same as the one we want to delete
+      var indexDelete = bookList.findIndex(function (book) {
+        return book.id === action.payload.id;
+      });
+      return { books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1))) };
+      break;
   }
   return state;
 };
@@ -114,13 +123,8 @@ store.dispatch({
 });
 
 store.dispatch({
-  type: "POST_BOOK",
-  payload: [{
-    id: 3,
-    title: 'this is the 3rd book title',
-    price: '3.333',
-    description: 'this is the desc'
-  }]
+  type: "DELETE_BOOK",
+  payload: { id: 1 }
 });
 
 /***/ }),
