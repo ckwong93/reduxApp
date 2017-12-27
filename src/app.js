@@ -26,16 +26,19 @@ const reducer = function(state={books: []},action){
 
     case "UPDATE_BOOK":
     const newBookList = [...state.books]
+    // find index of book we are looking for
     const indexUpdate = newBookList.findIndex(
       function(book){
         return book.id === action.payload.id;
       }
     )
+    // copies data for selected boook and then updates title based on updated info
     const newBookToUpdate = {
       ...newBookList[indexUpdate],
       title: action.payload.title
     }
     console.log("what is the updated book",newBookToUpdate);
+    // removes old unupdated data, pastes in all other data
     return {books: [...newBookList.slice(0,indexUpdate),newBookToUpdate,...newBookList.slice(indexUpdate+1)]}
   }
   return state

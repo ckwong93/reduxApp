@@ -102,13 +102,16 @@ var reducer = function reducer() {
 
     case "UPDATE_BOOK":
       var newBookList = [].concat(_toConsumableArray(state.books));
+      // find index of book we are looking for
       var indexUpdate = newBookList.findIndex(function (book) {
         return book.id === action.payload.id;
       });
+      // copies data for selected boook and then updates title based on updated info
       var newBookToUpdate = _extends({}, newBookList[indexUpdate], {
         title: action.payload.title
       });
       console.log("what is the updated book", newBookToUpdate);
+      // removes old unupdated data, pastes in all other data
       return { books: [].concat(_toConsumableArray(newBookList.slice(0, indexUpdate)), [newBookToUpdate], _toConsumableArray(newBookList.slice(indexUpdate + 1))) };
   }
   return state;
