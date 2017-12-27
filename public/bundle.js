@@ -1484,13 +1484,13 @@ store.dispatch((0, _booksActions.postBook)([{
   price: '870',
   description: 'this is the 2nd desc'
 }]));
-store.dispatch((0, _booksActions.deleteBook)({ id: 1 }));
-
-store.dispatch((0, _booksActions.updateBook)({
-  id: 2,
-  title: 'updated' }));
-
-store.dispatch((0, _cartActions.addToCart)([{ id: 1 }]));
+// store.dispatch(deleteBook({id:1}))
+//
+// store.dispatch(updateBook({
+// id:2,
+// title: 'updated'}))
+//
+// store.dispatch(addToCart([{id: 1}]))
 
 /***/ }),
 /* 22 */
@@ -19569,6 +19569,8 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(62);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19587,16 +19589,40 @@ var BooksList = function (_React$Component) {
   }
 
   _createClass(BooksList, [{
-    key: "render",
+    key: 'render',
     value: function render() {
+      console.log("ARE WE ACCESSING THE STATE? : ", this.props.books);
+
+      var booksList = this.props.books.map(function (booksArr) {
+        return _react2.default.createElement(
+          'div',
+          { key: booksArr.id },
+          _react2.default.createElement(
+            'h2',
+            null,
+            booksArr.title
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            booksArr.description
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            booksArr.price
+          )
+        );
+      });
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
         _react2.default.createElement(
-          "h1",
+          'h1',
           null,
-          "Hello React - BooksList Component"
-        )
+          'Hello React - BooksList Component'
+        ),
+        booksList
       );
     }
   }]);
@@ -19604,7 +19630,12 @@ var BooksList = function (_React$Component) {
   return BooksList;
 }(_react2.default.Component);
 
-exports.default = BooksList;
+function mapStateToProps(state) {
+  return {
+    books: state.books.books
+  };
+}
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(BooksList);
 
 /***/ }),
 /* 56 */

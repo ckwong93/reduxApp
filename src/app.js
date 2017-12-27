@@ -56,10 +56,10 @@ price: '870',
 description: 'this is the 2nd desc'
 }
 ]))
-store.dispatch(deleteBook({id:1}))
-
-store.dispatch(updateBook({
-id:2,
-title: 'updated'}))
-
-store.dispatch(addToCart([{id: 1}]))
+// store.dispatch(deleteBook({id:1}))
+//
+// store.dispatch(updateBook({
+// id:2,
+// title: 'updated'}))
+//
+// store.dispatch(addToCart([{id: 1}]))
