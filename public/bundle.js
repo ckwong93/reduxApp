@@ -19663,7 +19663,7 @@ var BooksList = function (_React$Component) {
         null,
         _react2.default.createElement(
           _reactBootstrap.Row,
-          null,
+          { style: { marginTop: '15px' } },
           _react2.default.createElement(
             _reactBootstrap.Col,
             { xs: 12, sm: 6 },
