@@ -87,11 +87,14 @@ var reducer = function reducer() {
       break;
 
     case "DELETE_BOOK":
+      // creates copy of state.books that we can play with to remove unwanted item
       var bookList = [].concat(_toConsumableArray(state.books));
       // indexDelete function sifts through books arr and finds where book id is same as the one we want to delete
       var indexDelete = bookList.findIndex(function (book) {
         return book.id === action.payload.id;
       });
+      // spread operator saves books as booklist from idx 0 UP TO index Delete, as well as everything after index Delete...essentially cutting out unwanted item without mutating state
+      // as an alternative, can also use map.filter (but will not be as performant)
       return { books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1))) };
       break;
   }
