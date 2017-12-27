@@ -70,6 +70,8 @@
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _redux = __webpack_require__(8);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -97,6 +99,17 @@ var reducer = function reducer() {
       // as an alternative, can also use map.filter (but will not be as performant)
       return { books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1))) };
       break;
+
+    case "UPDATE_BOOK":
+      var newBookList = [].concat(_toConsumableArray(state.books));
+      var indexUpdate = newBookList.findIndex(function (book) {
+        return book.id === action.payload.id;
+      });
+      var newBookToUpdate = _extends({}, newBookList[indexUpdate], {
+        title: action.payload.title
+      });
+      console.log("what is the updated book", newBookToUpdate);
+      return { books: [].concat(_toConsumableArray(newBookList.slice(0, indexUpdate)), [newBookToUpdate], _toConsumableArray(newBookList.slice(indexUpdate + 1))) };
   }
   return state;
 };
@@ -128,6 +141,13 @@ store.dispatch({
 store.dispatch({
   type: "DELETE_BOOK",
   payload: { id: 1 }
+});
+
+store.dispatch({
+  type: "UPDATE_BOOK",
+  payload: {
+    id: 2,
+    title: 'updated' }
 });
 
 /***/ }),

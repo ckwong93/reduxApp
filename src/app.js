@@ -23,6 +23,20 @@ const reducer = function(state={books: []},action){
     // as an alternative, can also use map.filter (but will not be as performant)
     return {books: [...bookList.slice(0,indexDelete),...bookList.slice(indexDelete + 1)]}
     break;
+
+    case "UPDATE_BOOK":
+    const newBookList = [...state.books]
+    const indexUpdate = newBookList.findIndex(
+      function(book){
+        return book.id === action.payload.id;
+      }
+    )
+    const newBookToUpdate = {
+      ...newBookList[indexUpdate],
+      title: action.payload.title
+    }
+    console.log("what is the updated book",newBookToUpdate);
+    return {books: [...newBookList.slice(0,indexUpdate),newBookToUpdate,...newBookList.slice(indexUpdate+1)]}
   }
   return state
 }
@@ -58,4 +72,11 @@ store.dispatch({
 store.dispatch({
   type:"DELETE_BOOK",
   payload: {id:1}
+});
+
+store.dispatch({
+  type:"UPDATE_BOOK",
+  payload: {
+  id:2,
+  title: 'updated'}
 })
