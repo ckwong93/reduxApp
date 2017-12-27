@@ -70,88 +70,46 @@
 "use strict";
 
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _redux = __webpack_require__(8);
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var _cartActions = __webpack_require__(27);
 
-// STEP 3 define reducers
-var reducer = function reducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: [] };
-  var action = arguments[1];
+var _booksActions = __webpack_require__(28);
 
-  switch (action.type) {
-    case "POST_BOOK":
-      // let books = state.books.concat(action.payload);
-      // return {books};
-      return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)) };
-      break;
+var _index = __webpack_require__(24);
 
-    case "DELETE_BOOK":
-      // creates copy of state.books that we can play with to remove unwanted item
-      var bookList = [].concat(_toConsumableArray(state.books));
-      // indexDelete function sifts through books arr and finds where book id is same as the one we want to delete
-      var indexDelete = bookList.findIndex(function (book) {
-        return book.id === action.payload.id;
-      });
-      // spread operator saves books as booklist from idx 0 UP TO index Delete, as well as everything after index Delete...essentially cutting out unwanted item without mutating state
-      // as an alternative, can also use map.filter (but will not be as performant)
-      return { books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1))) };
-      break;
+var _index2 = _interopRequireDefault(_index);
 
-    case "UPDATE_BOOK":
-      var newBookList = [].concat(_toConsumableArray(state.books));
-      // find index of book we are looking for
-      var indexUpdate = newBookList.findIndex(function (book) {
-        return book.id === action.payload.id;
-      });
-      // copies data for selected boook and then updates title based on updated info
-      var newBookToUpdate = _extends({}, newBookList[indexUpdate], {
-        title: action.payload.title
-      });
-      console.log("what is the updated book", newBookToUpdate);
-      // removes old unupdated data, pastes in all other data
-      return { books: [].concat(_toConsumableArray(newBookList.slice(0, indexUpdate)), [newBookToUpdate], _toConsumableArray(newBookList.slice(indexUpdate + 1))) };
-  }
-  return state;
-};
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // STEP 1 create the store
-var store = (0, _redux.createStore)(reducer);
+var store = (0, _redux.createStore)(_index2.default);
+// Import combined REDUCERS
+
 
 store.subscribe(function () {
   console.log('current state is ', store.getState());
-  // console.log('current state is ', store.getState()[1].price)
 });
 // STEP 2 create and dispatch actions
 
+store.dispatch((0, _booksActions.postBook)([{
+  id: 1,
+  title: 'this is the book title',
+  price: '5',
+  description: 'this is the desc'
+}, {
+  id: 2,
+  title: 'this is the 2nd book title',
+  price: '870',
+  description: 'this is the 2nd desc'
+}]));
+store.dispatch((0, _booksActions.deleteBook)({ id: 1 }));
 
-store.dispatch({
-  type: "POST_BOOK",
-  payload: [{
-    id: 1,
-    title: 'this is the book title',
-    price: '5',
-    description: 'this is the desc'
-  }, {
-    id: 2,
-    title: 'this is the 2nd book title',
-    price: '870',
-    description: 'this is the 2nd desc'
-  }]
-});
+store.dispatch((0, _booksActions.updateBook)({
+  id: 2,
+  title: 'updated' }));
 
-store.dispatch({
-  type: "DELETE_BOOK",
-  payload: { id: 1 }
-});
-
-store.dispatch({
-  type: "UPDATE_BOOK",
-  payload: {
-    id: 2,
-    title: 'updated' }
-});
+store.dispatch((0, _cartActions.addToCart)([{ id: 1 }]));
 
 /***/ }),
 /* 1 */
@@ -1389,6 +1347,177 @@ function applyMiddleware() {
         dispatch: _dispatch
       });
     };
+  };
+}
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(8);
+
+var _booksReducers = __webpack_require__(25);
+
+var _cartReducer = __webpack_require__(26);
+
+// here combine the REDUCERS
+
+
+// import reducers to be combined
+exports.default = (0, _redux.combineReducers)({
+  books: _booksReducers.booksReducers,
+  cart: _cartReducer.cartReducers
+});
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// BOOKS REDUCERS
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.booksReducers = booksReducers;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function booksReducers() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: [] };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case "POST_BOOK":
+      // let books = state.books.concat(action.payload);
+      // return {books};
+      return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)) };
+      break;
+
+    case "DELETE_BOOK":
+      // creates copy of state.books that we can play with to remove unwanted item
+      var bookList = [].concat(_toConsumableArray(state.books));
+      // indexDelete function sifts through books arr and finds where book id is same as the one we want to delete
+      var indexDelete = bookList.findIndex(function (book) {
+        return book.id === action.payload.id;
+      });
+      // spread operator saves books as booklist from idx 0 UP TO index Delete, as well as everything after index Delete...essentially cutting out unwanted item without mutating state
+      // as an alternative, can also use map.filter (but will not be as performant)
+      return { books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1))) };
+      break;
+
+    case "UPDATE_BOOK":
+      var newBookList = [].concat(_toConsumableArray(state.books));
+      // find index of book we are looking for
+      var indexUpdate = newBookList.findIndex(function (book) {
+        return book.id === action.payload.id;
+      });
+      // copies data for selected boook and then updates title based on updated info
+      var newBookToUpdate = _extends({}, newBookList[indexUpdate], {
+        title: action.payload.title
+      });
+      console.log("what is the updated book", newBookToUpdate);
+      // removes old unupdated data, pastes in all other data
+      return { books: [].concat(_toConsumableArray(newBookList.slice(0, indexUpdate)), [newBookToUpdate], _toConsumableArray(newBookList.slice(indexUpdate + 1))) };
+  }
+  return state;
+}
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// CART REDUCER
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cartReducers = cartReducers;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function cartReducers() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [] };
+  var action = arguments[1];
+
+  switch (action.type) {
+    case "ADD_TO_CART":
+      return { cart: [].concat(_toConsumableArray(state.cart), [action.payload]) };
+      break;
+  }
+  return state;
+}
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// ADD TO Cart
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addToCart = addToCart;
+function addToCart(book) {
+  return {
+    type: "ADD_TO_CART",
+    payload: book
+  };
+}
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// POST A BOOK
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.postBook = postBook;
+exports.deleteBook = deleteBook;
+exports.updateBook = updateBook;
+function postBook(book) {
+  return {
+    type: "POST_BOOK",
+    payload: book
+  };
+}
+
+// DELETE BOOK`
+function deleteBook(id) {
+  return {
+    type: "DELETE_BOOK",
+    payload: id
+  };
+}
+
+// UPDATE BOOK`
+function updateBook(book) {
+  return {
+    type: "UPDATE_BOOK",
+    payload: book
   };
 }
 
