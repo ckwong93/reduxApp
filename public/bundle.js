@@ -1473,17 +1473,19 @@ var store = (0, _redux.createStore)(_index2.default, middleware);
 
 // STEP 2 create and dispatch actions
 
-store.dispatch((0, _booksActions.postBook)([{
-  id: 1,
-  title: 'this is the book title',
-  price: '5',
-  description: 'this is the desc'
-}, {
-  id: 2,
-  title: 'this is the 2nd book title',
-  price: '870',
-  description: 'this is the 2nd desc'
-}]));
+// store.dispatch(postBook([{
+// id: 1,
+// title: 'this is the book title',
+// price: '5',
+// description: 'this is the desc'
+// },
+// {
+// id: 2,
+// title: 'this is the 2nd book title',
+// price: '870',
+// description: 'this is the 2nd desc'
+// }
+// ]))
 // store.dispatch(deleteBook({id:1}))
 //
 // store.dispatch(updateBook({
@@ -19416,6 +19418,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.postBook = postBook;
 exports.deleteBook = deleteBook;
 exports.updateBook = updateBook;
+exports.getBooks = getBooks;
 function postBook(book) {
   return {
     type: "POST_BOOK",
@@ -19436,6 +19439,13 @@ function updateBook(book) {
   return {
     type: "UPDATE_BOOK",
     payload: book
+  };
+}
+
+// GET BOOK
+function getBooks(books) {
+  return {
+    type: "GET_BOOKS"
   };
 }
 
@@ -19485,14 +19495,28 @@ exports.booksReducers = booksReducers;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function booksReducers() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: [] };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    books: [{
+      id: 1,
+      title: 'this is the book title',
+      price: '5',
+      description: 'this is the desc'
+    }, {
+      id: 2,
+      title: 'this is the 2nd book title',
+      price: '8.7',
+      description: 'this is the 2nd desc'
+    }]
+  };
   var action = arguments[1];
 
   switch (action.type) {
     case "POST_BOOK":
       // let books = state.books.concat(action.payload);
       // return {books};
-      return { books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload)) };
+      return {
+        books: [].concat(_toConsumableArray(state.books), _toConsumableArray(action.payload))
+      };
       break;
 
     case "DELETE_BOOK":
@@ -19504,7 +19528,9 @@ function booksReducers() {
       });
       // spread operator saves books as booklist from idx 0 UP TO index Delete, as well as everything after index Delete...essentially cutting out unwanted item without mutating state
       // as an alternative, can also use map.filter (but will not be as performant)
-      return { books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1))) };
+      return {
+        books: [].concat(_toConsumableArray(bookList.slice(0, indexDelete)), _toConsumableArray(bookList.slice(indexDelete + 1)))
+      };
       break;
 
     case "UPDATE_BOOK":
@@ -19519,7 +19545,15 @@ function booksReducers() {
       });
       console.log("what is the updated book", newBookToUpdate);
       // removes old unupdated data, pastes in all other data
-      return { books: [].concat(_toConsumableArray(newBookList.slice(0, indexUpdate)), [newBookToUpdate], _toConsumableArray(newBookList.slice(indexUpdate + 1))) };
+      return {
+        books: [].concat(_toConsumableArray(newBookList.slice(0, indexUpdate)), [newBookToUpdate], _toConsumableArray(newBookList.slice(indexUpdate + 1)))
+      };
+
+    case "GET_BOOKS":
+      return _extends({}, state, {
+        books: [].concat(_toConsumableArray(state.books))
+      });
+      break;
   }
   return state;
 }
@@ -19571,6 +19605,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(62);
 
+var _redux = __webpack_require__(15);
+
+var _booksActions = __webpack_require__(51);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19589,10 +19627,15 @@ var BooksList = function (_React$Component) {
   }
 
   _createClass(BooksList, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // dispatch an action once compnent loads
+      this.props.getBooks();
+    }
+  }, {
     key: 'render',
     value: function render() {
-      console.log("ARE WE ACCESSING THE STATE? : ", this.props.books);
-
+      // console.log("ARE WE ACCESSING THE STATE? : ", this.props.books);
       var booksList = this.props.books.map(function (booksArr) {
         return _react2.default.createElement(
           'div',
@@ -19635,7 +19678,10 @@ function mapStateToProps(state) {
     books: state.books.books
   };
 }
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(BooksList);
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ getBooks: _booksActions.getBooks }, dispatch);
+}
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(BooksList);
 
 /***/ }),
 /* 56 */

@@ -43,19 +43,19 @@ render(
 
 // STEP 2 create and dispatch actions
 
-store.dispatch(postBook([{
-id: 1,
-title: 'this is the book title',
-price: '5',
-description: 'this is the desc'
-},
-{
-id: 2,
-title: 'this is the 2nd book title',
-price: '870',
-description: 'this is the 2nd desc'
-}
-]))
+// store.dispatch(postBook([{
+// id: 1,
+// title: 'this is the book title',
+// price: '5',
+// description: 'this is the desc'
+// },
+// {
+// id: 2,
+// title: 'this is the 2nd book title',
+// price: '870',
+// description: 'this is the 2nd desc'
+// }
+// ]))
 // store.dispatch(deleteBook({id:1}))
 //
 // store.dispatch(updateBook({

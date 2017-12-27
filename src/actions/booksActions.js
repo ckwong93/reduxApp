@@ -26,3 +26,11 @@ export function updateBook(book){
     payload: book
   }
 }
+
+
+// GET BOOK
+export function getBooks(books){
+  return{
+    type: "GET_BOOKS"
+  }
+}
