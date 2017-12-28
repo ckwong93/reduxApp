@@ -19580,7 +19580,7 @@ function cartReducers() {
 
   switch (action.type) {
     case "ADD_TO_CART":
-      return { cart: [].concat(_toConsumableArray(state.cart), _toConsumableArray(action.payload)) };
+      return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
       break;
   }
   return state;
