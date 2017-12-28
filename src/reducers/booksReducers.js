@@ -3,13 +3,13 @@
 // BOOKS REDUCERS
 export function booksReducers(state = {
   books: [{
-      id: 1,
+      _id: 1,
       title: 'this is the book title',
       price: '5',
       description: 'this is the desc'
     },
     {
-      id: 2,
+      _id: 2,
       title: 'this is the 2nd book title',
       price: '8.7',
       description: 'this is the 2nd desc'
@@ -31,7 +31,7 @@ export function booksReducers(state = {
       // indexDelete function sifts through books arr and finds where book id is same as the one we want to delete
       const indexDelete = bookList.findIndex(
         function(book) {
-          return book.id === action.payload.id;
+          return book._id === action.payload._id;
         }
       )
       // spread operator saves books as booklist from idx 0 UP TO index Delete, as well as everything after index Delete...essentially cutting out unwanted item without mutating state
@@ -46,7 +46,7 @@ export function booksReducers(state = {
       // find index of book we are looking for
       const indexUpdate = newBookList.findIndex(
         function(book) {
-          return book.id === action.payload.id;
+          return book._id === action.payload._id;
         }
       )
       // copies data for selected boook and then updates title based on updated info
