@@ -41,7 +41,7 @@ class Cart extends React.Component{
               <h6>${cartArr.price}</h6><span>    </span>
             </Col>
             <Col xs={12} sm={2}>
-              <h6>qty <Label bsStyle="success"></Label></h6>
+              <h6>qty<Label bsStyle="success">{cartArr.quantity}</Label></h6>
             </Col>
             <Col xs={6} sm={4}>
               <ButtonGroup style={{minWidth: '300px'}}><Button bsStyle="default" bsSize="small">-</Button>
