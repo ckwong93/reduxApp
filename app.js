@@ -59,7 +59,7 @@ app.get('/books', function(req, res){
 
 // --------------DELETE BOOKS API
 app.delete('/books/:_id', function(req, res){
-  var query ={_id: req.params._id};
+  var query = {_id: req.params._id};
   Books.remove(query,function(err,books){
     if(err){
       throw err;
@@ -68,6 +68,31 @@ app.delete('/books/:_id', function(req, res){
   })
 })
 
+
+// ----------------UPDATE BOOKS API
+app.put('/books/:_id', function(req,res){
+  var book = req.body;
+  var query = req.params._id;
+  // $set will set a new field if does not exist
+  var update = {
+    '$set': {
+      title: book.title,
+      description: book.description,
+      image: book.image,
+      price: book.price
+    }
+  };
+
+  // when true returns the updated doc
+  var options = {new: true};
+
+  Books.findOneAndUpdate(query, update, options, function(err,books){
+    if(err){
+      throw err;
+    }
+    res.json(books);
+  })
+})
 // END APIS
 
 // user created server
