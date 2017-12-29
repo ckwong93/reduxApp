@@ -30,7 +30,7 @@ var Books = require('./models/books.js');
 
 
 
-// POST BOOKS API
+// ------------POST BOOKS API
 app.post('/books', function(req, res){
   // set book equal to request body
   var book = req.body;
@@ -44,6 +44,16 @@ app.post('/books', function(req, res){
     res.json(books);
   })
 })
+
+// --------------GET BOOKS API
+app.get('/books', function(req, res){
+  Books.find(function(err, books){
+    if(err){
+      throw err;
+    }
+    res.json(books);
+  })
+});
 // END APIS
 
 // user created server
