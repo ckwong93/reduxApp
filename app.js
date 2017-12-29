@@ -54,6 +54,20 @@ app.get('/books', function(req, res){
     res.json(books);
   })
 });
+
+
+
+// --------------DELETE BOOKS API
+app.delete('/books/:_id', function(req, res){
+  var query ={_id: req.params._id};
+  Books.remove(query,function(err,books){
+    if(err){
+      throw err;
+    }
+    res.json(books);
+  })
+})
+
 // END APIS
 
 // user created server
