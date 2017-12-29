@@ -35,8 +35,6 @@ export function totals(payloadArr){
     return a + b;
   },0);
 
-
-
   const totalQty = payloadArr.map(function(qty){
     return qty.quantity;
   }).reduce(function(a,b){
