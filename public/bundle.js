@@ -40968,7 +40968,7 @@ var Cart = function (_React$Component) {
             _react2.default.createElement(
               'h6',
               null,
-              'Total quantity: $',
+              'Total book quantity: #',
               this.props.totalQty
             ),
             _react2.default.createElement(
