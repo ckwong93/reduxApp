@@ -91,12 +91,16 @@ class Cart extends React.Component{
         </Row>
         <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Thank you!</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h6>test</h6>
+            <h6>Your order has been saved</h6>
+            <p>You will receive an email confirmation</p>
           </Modal.Body>
           <Modal.Footer>
+            <Col xs={6}>
+              <h6>Total $:</h6>
+            </Col>
             <Button onClick={this.close.bind(this)}>Close</Button>
           </Modal.Footer>
         </Modal>
