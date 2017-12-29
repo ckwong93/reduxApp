@@ -19601,10 +19601,10 @@ function cartReducers() {
 
   switch (action.type) {
     case "ADD_TO_CART":
-      return _extends({}, state, { cart: action.payload, totalAmount: totals(action.payload).amount });
+      return _extends({}, state, { cart: action.payload, totalAmount: totals(action.payload).amount, totalQty: totals(action.payload).qty });
       break;
     case "DELETE_CART_ITEM":
-      return _extends({}, state, { cart: action.payload, totalAmount: totals(action.payload).amount });
+      return _extends({}, state, { cart: action.payload, totalAmount: totals(action.payload).amount, totalQty: totals(action.payload).qty });
       break;
     case "UPDATE_CART":
       var currentCartToUpdate = [].concat(_toConsumableArray(state.cart));
@@ -19614,7 +19614,7 @@ function cartReducers() {
       var newCartToUpdate = _extends({}, currentCartToUpdate[indexToUpdate], { quantity: currentCartToUpdate[indexToUpdate].quantity + action.unit
       });
       var cartUpdate = [].concat(_toConsumableArray(currentCartToUpdate.slice(0, indexToUpdate)), [newCartToUpdate], _toConsumableArray(currentCartToUpdate.slice(indexToUpdate + 1)));
-      return _extends({}, state, { cart: cartUpdate, totalAmount: totals(cartUpdate).amount });
+      return _extends({}, state, { cart: cartUpdate, totalAmount: totals(cartUpdate).amount, totalQty: totals(cartUpdate).qty });
       break;
   }
   return state;
@@ -19628,7 +19628,12 @@ function totals(payloadArr) {
     return a + b;
   }, 0);
 
-  return { amount: totalAmount.toFixed(2) };
+  var totalQty = payloadArr.map(function (qty) {
+    return qty.quantity;
+  }).reduce(function (a, b) {
+    return a + b;
+  }, 0);
+  return { amount: totalAmount.toFixed(2), qty: totalQty };
 }
 
 /***/ }),
