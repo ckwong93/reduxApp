@@ -19591,6 +19591,7 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.cartReducers = cartReducers;
+exports.totals = totals;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -19600,10 +19601,10 @@ function cartReducers() {
 
   switch (action.type) {
     case "ADD_TO_CART":
-      return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
+      return _extends({}, state, { cart: action.payload, totalAmount: totals(action.payload).amount });
       break;
     case "DELETE_CART_ITEM":
-      return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
+      return _extends({}, state, { cart: action.payload, totalAmount: totals(action.payload).amount });
       break;
     case "UPDATE_CART":
       var currentCartToUpdate = [].concat(_toConsumableArray(state.cart));
@@ -19613,10 +19614,21 @@ function cartReducers() {
       var newCartToUpdate = _extends({}, currentCartToUpdate[indexToUpdate], { quantity: currentCartToUpdate[indexToUpdate].quantity + action.unit
       });
       var cartUpdate = [].concat(_toConsumableArray(currentCartToUpdate.slice(0, indexToUpdate)), [newCartToUpdate], _toConsumableArray(currentCartToUpdate.slice(indexToUpdate + 1)));
-      return _extends({}, state, { cart: cartUpdate });
+      return _extends({}, state, { cart: cartUpdate, totalAmount: totals(cartUpdate).amount });
       break;
   }
   return state;
+}
+
+// CALCULATE TOTALS
+function totals(payloadArr) {
+  var totalAmount = payloadArr.map(function (cartArr) {
+    return cartArr.price * cartArr.quantity;
+  }).reduce(function (a, b) {
+    return a + b;
+  }, 0);
+
+  return { amount: totalAmount.toFixed(2) };
 }
 
 /***/ }),
