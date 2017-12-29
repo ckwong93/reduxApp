@@ -71,6 +71,12 @@ class Cart extends React.Component{
     return(
       <Panel header="Cart" bsStyle="primary">
         {cartItemsList}
+        <Row>
+          <Col xs={12}>
+            <h6>Total amount:</h6>
+            <Button bsStyle="success" bsSize="small">PROCEED TO CHECKOUT</Button>
+          </Col>
+        </Row>
       </Panel>
     )
   }
