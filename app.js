@@ -32,6 +32,9 @@ var Books = require('./models/books.js');
 
 // POST BOOKS API
 app.post('/books', function(req, res){
+  // set book equal to request body
+  var book = req.body;
+
   Books.create(book, function(err,books){
     // if there is an error, will throw error``
     if(err){
