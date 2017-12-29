@@ -22,6 +22,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// user created APIs
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/bookshop')
+var Books = require('./models/books.js');
+
+
+
+// POST BOOKS API
+app.post('/books', function(req, res){
+  Books.create(book, function(err,books){
+    // if there is an error, will throw error``
+    if(err){
+      throw err;
+    }
+    // if successful, show json of saved items
+    res.json(books);
+  })
+})
+// END APIS
+
+// user created server
 app.get('*', function(req,res){
   res.sendFile(path.resolve(__dirname,'public','index.html'))
 })
