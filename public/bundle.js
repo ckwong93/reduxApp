@@ -5124,16 +5124,28 @@ function updateCart(_id, unit) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getBooks = getBooks;
 exports.postBook = postBook;
 exports.deleteBook = deleteBook;
 exports.updateBook = updateBook;
-exports.getBooks = getBooks;
 
 var _axios = __webpack_require__(401);
 
 var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// GET BOOKS FUNCTION - interacts with MONGODB
+function getBooks() {
+  // this function will use send a get request to the database through axios. once completed it will then dispatch the get action creator which will update the store with the database information
+  return function (dispatch) {
+    _axios2.default.get("/books").then(function (response) {
+      dispatch({ type: "GET_BOOKS", payload: response.data });
+    }).catch(function (err) {
+      dispatch({ type: "GET_BOOKS_REJECTED", payload: err });
+    });
+  };
+}
 
 // POST A BOOK - old version without axios
 // export function postBook(book){
@@ -5167,13 +5179,6 @@ function updateBook(book) {
   return {
     type: "UPDATE_BOOK",
     payload: book
-  };
-}
-
-// GET BOOK
-function getBooks(books) {
-  return {
-    type: "GET_BOOKS"
   };
 }
 
@@ -35103,17 +35108,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function booksReducers() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    books: [{
-      _id: 1,
-      title: 'this is the book title',
-      price: '5',
-      description: 'this is the desc'
-    }, {
-      _id: 2,
-      title: 'this is the 2nd book title',
-      price: '8.7',
-      description: 'this is the 2nd desc'
-    }]
+    books: []
   };
   var action = arguments[1];
 
@@ -35159,7 +35154,7 @@ function booksReducers() {
 
     case "GET_BOOKS":
       return _extends({}, state, {
-        books: [].concat(_toConsumableArray(state.books))
+        books: [].concat(_toConsumableArray(action.payload))
       });
       break;
   }

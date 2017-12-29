@@ -2,6 +2,20 @@
 import axios from 'axios';
 
 
+// GET BOOKS FUNCTION - interacts with MONGODB
+export function getBooks(){
+  // this function will use send a get request to the database through axios. once completed it will then dispatch the get action creator which will update the store with the database information
+  return function(dispatch){
+    axios.get("/books")
+    .then(function(response){
+      dispatch({type:"GET_BOOKS", payload:response.data})
+    })
+    .catch(function(err){
+      dispatch({type:"GET_BOOKS_REJECTED", payload:err})
+    })
+  }
+}
+
 // POST A BOOK - old version without axios
 // export function postBook(book){
 //   return {
@@ -35,13 +49,5 @@ export function updateBook(book){
   return {
     type: "UPDATE_BOOK",
     payload: book
-  }
-}
-
-
-// GET BOOK
-export function getBooks(books){
-  return{
-    type: "GET_BOOKS"
   }
 }
