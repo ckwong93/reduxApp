@@ -16,6 +16,17 @@ export function getBooks(){
   }
 }
 
+export function deleteBooks(id){
+  return function(dispatch){
+    axios.delete("/books/" + id)
+    .then(function(response){
+      dispatch({type:"DELETE_BOOK", payload:id})
+    })
+    .catch(function(err){
+      dispatch({type: "DELETE_BOOK_REJECTED", payload: err})
+    })
+  }
+}
 // POST A BOOK - old version without axios
 // export function postBook(book){
 //   return {

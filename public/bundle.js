@@ -5125,6 +5125,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getBooks = getBooks;
+exports.deleteBooks = deleteBooks;
 exports.postBook = postBook;
 exports.deleteBook = deleteBook;
 exports.updateBook = updateBook;
@@ -5147,6 +5148,15 @@ function getBooks() {
   };
 }
 
+function deleteBooks(id) {
+  return function (dispatch) {
+    _axios2.default.delete("/books/" + id).then(function (response) {
+      dispatch({ type: "DELETE_BOOK", payload: id });
+    }).catch(function (err) {
+      dispatch({ type: "DELETE_BOOK_REJECTED", payload: err });
+    });
+  };
+}
 // POST A BOOK - old version without axios
 // export function postBook(book){
 //   return {
