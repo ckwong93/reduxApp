@@ -40962,7 +40962,14 @@ var Cart = function (_React$Component) {
             _react2.default.createElement(
               'h6',
               null,
-              'Total amount:'
+              'Total amount: $',
+              this.props.totalAmount
+            ),
+            _react2.default.createElement(
+              'h6',
+              null,
+              'Total quantity: $',
+              this.props.totalQty
             ),
             _react2.default.createElement(
               _reactBootstrap.Button,
@@ -41006,7 +41013,8 @@ var Cart = function (_React$Component) {
               _react2.default.createElement(
                 'h6',
                 null,
-                'Total $:'
+                'Total $',
+                this.props.totalAmount
               )
             ),
             _react2.default.createElement(
@@ -41025,7 +41033,9 @@ var Cart = function (_React$Component) {
 
 function mapStateToProps(state) {
   return {
-    cart: state.cart.cart
+    cart: state.cart.cart,
+    totalAmount: state.cart.totalAmount,
+    totalQty: state.cart.totalQty
   };
 }
 
