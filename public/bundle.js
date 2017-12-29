@@ -40811,7 +40811,9 @@ var Cart = function (_React$Component) {
   }, {
     key: 'onDecrement',
     value: function onDecrement(_id, quantity) {
-      if (quantity > 1) {
+      if (quantity === 1) {
+        this.onDelete(_id);
+      } else if (quantity > 1) {
         this.props.updateCart(_id, -1);
       }
     }

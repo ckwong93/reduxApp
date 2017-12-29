@@ -25,7 +25,10 @@ class Cart extends React.Component{
   }
 
   onDecrement(_id, quantity){
-    if(quantity > 1){
+    if(quantity === 1){
+      this.onDelete(_id)
+    }
+    else if(quantity > 1){
       this.props.updateCart(_id,-1);
     }
   }
