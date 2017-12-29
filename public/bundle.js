@@ -5125,7 +5125,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getBooks = getBooks;
-exports.deleteBooks = deleteBooks;
 exports.postBook = postBook;
 exports.deleteBook = deleteBook;
 exports.updateBook = updateBook;
@@ -5148,16 +5147,7 @@ function getBooks() {
   };
 }
 
-function deleteBooks(id) {
-  return function (dispatch) {
-    _axios2.default.delete("/books/" + id).then(function (response) {
-      dispatch({ type: "DELETE_BOOK", payload: id });
-    }).catch(function (err) {
-      dispatch({ type: "DELETE_BOOK_REJECTED", payload: err });
-    });
-  };
-}
-// POST A BOOK - old version without axios
+// POST A BOOK - old version without axios and db (only changes state)
 // export function postBook(book){
 //   return {
 //     type:"POST_BOOK",
@@ -5165,7 +5155,7 @@ function deleteBooks(id) {
 //   }
 // }
 
-// POST A BOOK - using axios
+// POST A BOOK - using axios (changes state + db)
 function postBook(book) {
   return function (dispatch) {
     _axios2.default.post("/books", book).then(function (response) {
@@ -5176,11 +5166,22 @@ function postBook(book) {
   };
 }
 
-// DELETE BOOK`
+// DELETE BOOK - old version without axios and db (only changes state)
+// export function deleteBook(id){
+//   return {
+//     type: "DELETE_BOOK",
+//     payload: id
+//   }
+// }
+
+// DELETE BOOK -new version using axios (changes state + db)
 function deleteBook(id) {
-  return {
-    type: "DELETE_BOOK",
-    payload: id
+  return function (dispatch) {
+    _axios2.default.delete("/books/" + id).then(function (response) {
+      dispatch({ type: "DELETE_BOOK", payload: id });
+    }).catch(function (err) {
+      dispatch({ type: "DELETE_BOOK_REJECTED", payload: err });
+    });
   };
 }
 

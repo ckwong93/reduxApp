@@ -16,18 +16,7 @@ export function getBooks(){
   }
 }
 
-export function deleteBooks(id){
-  return function(dispatch){
-    axios.delete("/books/" + id)
-    .then(function(response){
-      dispatch({type:"DELETE_BOOK", payload:id})
-    })
-    .catch(function(err){
-      dispatch({type: "DELETE_BOOK_REJECTED", payload: err})
-    })
-  }
-}
-// POST A BOOK - old version without axios
+// POST A BOOK - old version without axios and db (only changes state)
 // export function postBook(book){
 //   return {
 //     type:"POST_BOOK",
@@ -35,7 +24,7 @@ export function deleteBooks(id){
 //   }
 // }
 
-// POST A BOOK - using axios
+// POST A BOOK - using axios (changes state + db)
 export function postBook(book){
   return function(dispatch){
     axios.post("/books", book).then(function(response){
@@ -46,13 +35,29 @@ export function postBook(book){
   }
 }
 
-// DELETE BOOK`
+
+// DELETE BOOK - old version without axios and db (only changes state)
+// export function deleteBook(id){
+//   return {
+//     type: "DELETE_BOOK",
+//     payload: id
+//   }
+// }
+
+// DELETE BOOK -new version using axios (changes state + db)
 export function deleteBook(id){
-  return {
-    type: "DELETE_BOOK",
-    payload: id
+  return function(dispatch){
+    axios.delete("/books/" + id)
+    .then(function(response){
+      dispatch({type:"DELETE_BOOK", payload:id})
+    })
+    .catch(function(err){
+      dispatch({type: "DELETE_BOOK_REJECTED", payload: err})
+    })
   }
 }
+
+
 
 
 // UPDATE BOOK`
